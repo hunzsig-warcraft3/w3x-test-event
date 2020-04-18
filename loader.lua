@@ -17,10 +17,9 @@ hevent.onChat(hplayer.players[1], '##', false, function(evtData)
     print_r(evtData)
 end)
 
--- 聊天测试，兼代测试入口
-hevent.onChat(hplayer.players[1], 'test', true, function(evtData)
+-- 聊天测试，对话框点击测试
+hevent.onChat(hplayer.players[1], 'dialog', true, function(evtData)
     print_r(evtData)
-    -- 对话框点击测试
     hdialog.create(hplayer.players[1],
         {
             title = "h-lua对话框协助测试",
@@ -32,8 +31,6 @@ hevent.onChat(hplayer.players[1], 'test', true, function(evtData)
         },
         function(val)
             print("hdialog.click", val)
-            if (val == "Q") then
-            end
         end
     )
 end)
