@@ -45,7 +45,8 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
         {
             title = "h-lua对话框协助测试",
             buttons = {
-                "单位对打"
+                "单位对打",
+                "造成伤害",
             }
         },
         function(val)
@@ -83,6 +84,25 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                     _ttg(
                         evtData.triggerUnit,
                         hColor.purple("被" .. hunit.getName(evtData.attacker) .. "攻击了")
+                    )
+                end)
+            elseif (val == "造成伤害") then
+                local u1 = cru(1)
+                local u2 = cru(2)
+                hevent.onDamage(u1, function(evtData)
+                    _ttg(
+                        evtData.triggerUnit,
+                        hColor.green(
+                            "你对" .. hunit.getName(evtData.targetUnit)
+                                .. "造成" .. evtData.damage .. "伤害")
+                    )
+                end)
+                hevent.onBeDamage(u2, function(evtData)
+                    _ttg(
+                        evtData.triggerUnit,
+                        hColor.red(
+                            hunit.getName(evtData.sourceUnit)
+                                .. "对你造成" .. evtData.damage .. "伤害")
                     )
                 end)
             end
