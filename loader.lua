@@ -9,8 +9,29 @@ cj.FogMaskEnable(false)
 htime.setInterval(5.00, function()
     collectgarbage("collect")
     print_mb("========内存回收->" .. collectgarbage("count"))
-    print_r(hRuntime.event)
+    --print_r(hRuntime.event, print, false)
 end)
+
+local cru = function(index)
+    local ids = {
+        "hkni",
+        "hfoo",
+        "hsor",
+        "hspt",
+    }
+    return hunit.create({
+        register = true,
+        whichPlayer = hplayer.players[index],
+        unitId = ids[index],
+        x = 300 * index, y = 0,
+        life = 60,
+    })
+end
+
+local _ttg = function(u, txt)
+    local t = httg.create2Unit(u, txt, 16, nil, 1, 3, 50)
+    httg.style(t, 'scale', 0, 1)
+end
 
 -- 聊天测试，兼代测试入口
 hevent.onChat(hplayer.players[1], '##', false, function(evtData)
@@ -18,19 +39,33 @@ hevent.onChat(hplayer.players[1], '##', false, function(evtData)
 end)
 
 -- 聊天测试，对话框点击测试
-hevent.onChat(hplayer.players[1], 'dialog', true, function(evtData)
-    print_r(evtData)
+hevent.onChat(hplayer.players[1], 'test', true, function(ed)
+    print_r(ed)
     hdialog.create(hplayer.players[1],
         {
             title = "h-lua对话框协助测试",
             buttons = {
-                { value = "Q", label = "第1个" },
-                { value = "W", label = "第2个" },
-                { value = "E", label = "第3个" },
+                "单位对打"
             }
         },
         function(val)
-            print("hdialog.click", val)
+            if (val == "单位对打") then
+                -- 创建单位
+                local u1 = cru(1)
+                local u2 = cru(2)
+                hevent.onAttackDetect(u1, function(evtData)
+                    _ttg(
+                        evtData.targetUnit,
+                        hColor.red(hunit.getName(evtData.triggerUnit) .. "注意你了")
+                    )
+                end)
+                hevent.onAttackGetTarget(u2, function(evtData)
+                    _ttg(
+                        evtData.targetUnit,
+                        hColor.green(hunit.getName(evtData.triggerUnit) .. "目标你了")
+                    )
+                end)
+            end
         end
     )
 end)
