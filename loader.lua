@@ -47,6 +47,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
             buttons = {
                 "单位对打",
                 "造成伤害",
+                "范围测试",
             }
         },
         function(val)
@@ -103,6 +104,15 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                         hColor.red(
                             hunit.getName(evtData.sourceUnit)
                                 .. "对你造成" .. evtData.damage .. "伤害")
+                    )
+                end)
+            elseif (val == "范围测试") then
+                local u1 = cru(1)
+                local u2 = cru(2)
+                hevent.onEnterUnitRange(u1, 150, function(evtData)
+                    _ttg(
+                        evtData.centerUnit,
+                        hColor.purple(hunit.getName(evtData.enterUnit) .. "接近你了")
                     )
                 end)
             end
