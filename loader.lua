@@ -46,7 +46,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
             title = "h-lua对话框协助测试",
             buttons = {
                 "单位对打",
-                "造成伤害",
+                "特殊效果",
                 "范围测试",
             }
         },
@@ -87,23 +87,66 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                         hColor.purple("被" .. hunit.getName(evtData.attacker) .. "攻击了")
                     )
                 end)
-            elseif (val == "造成伤害") then
+            elseif (val == "特殊效果") then
                 local u1 = cru(1)
                 local u2 = cru(2)
-                hevent.onDamage(u1, function(evtData)
+                local u3 = cru(3)
+                local u4 = cru(4)
+                hattr.set(u1, 0, {
+                    avoid = "=50",
+                    attack_damage_type = "+physical",
+                    attack_effect = {
+                        add = {
+                            { attr = "knocking", odds = 75, percent = 100, effect = nil }
+                        }
+                    }
+                })
+                hattr.set(u2, 0, {
+                    hemophagia = "=25",
+                    attack_effect = {
+                        add = {
+                            { attr = "swim", odds = 50.0, val = 5.0, during = 2.0, effect = nil },
+                        }
+                    }
+                })
+                hattr.set(u3, 0, {
+                    invincible = "=20",
+                    attack_effect = {
+                        add = {
+                            { attr = "crack_fly", odds = 50, val = 5, during = 1.5, effect = nil, distance = 300, high = 300 }
+                        }
+                    }
+                })
+                hattr.set(u4, 0, {
+                    damage_rebound = "=10",
+                    attack_effect = {
+                        add = {
+                            { attr = "lightning_chain", odds = 50, val = 5, effect = nil, qty = 3, reduce = 5 }
+                        }
+                    }
+                })
+                hevent.onBeSwim(u1, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.green(
-                            "你对" .. hunit.getName(evtData.targetUnit)
-                                .. "造成" .. evtData.damage .. "伤害")
+                        hColor.green("你被" .. hunit.getName(evtData.sourceUnit) .. "眩晕了")
                     )
                 end)
-                hevent.onBeDamage(u2, function(evtData)
+                hevent.onBeCrackFly(u2, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.red(
-                            hunit.getName(evtData.sourceUnit)
-                                .. "对你造成" .. evtData.damage .. "伤害")
+                        hColor.sky("你被" .. hunit.getName(evtData.sourceUnit) .. "击飞了")
+                    )
+                end)
+                hevent.onBeLightningChain(u3, function(evtData)
+                    _ttg(
+                        evtData.triggerUnit,
+                        hColor.yellow("你被" .. hunit.getName(evtData.sourceUnit) .. "闪电链")
+                    )
+                end)
+                hevent.onBeRebound(u1, function(evtData)
+                    _ttg(
+                        evtData.triggerUnit,
+                        hColor.yellow("你被" .. hunit.getName(evtData.sourceUnit) .. "反弹伤害")
                     )
                 end)
             elseif (val == "范围测试") then
