@@ -2,8 +2,7 @@
 require "h-lua"
 
 -- 禁用迷雾
-cj.FogEnable(false)
-cj.FogMaskEnable(false)
+hmark.setFogStatus(false, false)
 
 -- 监察内存
 htime.setInterval(5.00, function()
@@ -152,10 +151,42 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
             elseif (val == "范围测试") then
                 local u1 = cru(1)
                 local u2 = cru(2)
+                heffect.toXY("Abilities\\Spells\\Items\\AIso\\BIsvTarget.mdl", 0, 0, 60)
+                local rect = hrect.create(0, 0, 300, 300, "神秘空间")
+                hrect.lock({
+                    type = "square",
+                    during = 30,
+                    whichRect = rect,
+                })
+                hrect.del(rect, 60)
                 hevent.onEnterUnitRange(u1, 150, function(evtData)
                     _ttg(
                         evtData.centerUnit,
                         hColor.purple(hunit.getName(evtData.enterUnit) .. "接近你了")
+                    )
+                end)
+                hevent.onEnterUnitRange(u2, 300, function(evtData)
+                    hattr.set(evtData.enterUnit, 1, { move = "+100" })
+                    _ttg(
+                        evtData.enterUnit,
+                        hColor.sky("加速！")
+                    )
+                end)
+                hevent.onEnterRect(rect, function(evtData)
+                    _ttg(
+                        evtData.triggerUnit,
+                        hColor.yellow(hunit.getName(evtData.triggerUnit)
+                            .. "进入了"
+                            .. hrect.getName(evtData.triggerRect))
+                    )
+                end)
+                hevent.onLeaveRect(rect, function(evtData)
+                    _ttg(
+                        evtData.triggerUnit,
+                        hColor.yellowLight(hunit.getName(evtData.triggerUnit)
+                            .. "离开了"
+                            .. hrect.getName(evtData.triggerRect)
+                        )
                     )
                 end)
             end
