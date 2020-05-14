@@ -2,7 +2,7 @@
 require "h-lua"
 
 -- 禁用迷雾
-hmark.setFogStatus(false, false)
+henv.setFogStatus(false, false)
 
 -- 监察内存
 htime.setInterval(5.00, function()
@@ -17,6 +17,7 @@ local cru = function(index)
         "hfoo",
         "hsor",
         "hspt",
+        "otau",
     }
     return hunit.create({
         register = true,
@@ -91,6 +92,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 local u2 = cru(2)
                 local u3 = cru(3)
                 local u4 = cru(4)
+                local u5 = cru(5)
                 hattr.set(u1, 0, {
                     avoid = "=50",
                     attack_damage_type = "+physical",
@@ -120,7 +122,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                     damage_rebound = "=10",
                     attack_effect = {
                         add = {
-                            { attr = "lightning_chain", odds = 50, val = 5, effect = nil, qty = 3, reduce = 5 }
+                            { attr = "lightning_chain", odds = 75, val = 5, effect = nil, qty = 5, reduce = 5 }
                         }
                     }
                 })
@@ -147,6 +149,91 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                         evtData.triggerUnit,
                         hColor.yellow("你被" .. hunit.getName(evtData.sourceUnit) .. "反弹伤害")
                     )
+                end)
+                hevent.onAttack(u5, function(evtData)
+                    local rand = math.random(1, 3)
+                    if (rand == 1) then
+                        _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动扇面冲击"))
+                        hskill.leapPow({
+                            qty = 6, --数量
+                            deg = 20, --角度
+                            arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
+                            sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
+                            x = cj.GetUnitX(evtData.targetUnit), --冲击的x坐标（可选的，对点冲击，与某目标无关）
+                            y = cj.GetUnitY(evtData.targetUnit), --冲击的y坐标（可选的，对点冲击，与某目标无关）
+                            speed = 10, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)
+                            acceleration = 1, --冲击加速度（可选的，每个周期都会增加0.02秒一次)
+                            filter = function(filterUnit)
+                                return his.enemy(filterUnit, u5) and his.alive(filterUnit)
+                            end,
+                            tokenArrow = "Abilities\\Spells\\Orc\\Shockwave\\ShockwaveMissile.mdl",
+                            tokenArrowScale = 1.00, --前冲的特效作为马甲冲击时的模型缩放
+                            tokenArrowOpacity = 1.00, --前冲的特效作为马甲冲击时的模型透明度[0-1]
+                            tokenArrowHeight = 0.00, --前冲的特效作为马甲冲击时的离地高度
+                            effectMovement = nil, --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
+                            effectEnd = nil, --到达最后位置时的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
+                            damageMovement = 3, --移动过程中的伤害（可选的，默认为0）
+                            damageMovementRange = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
+                            damageMovementRepeat = true, --移动过程中伤害是否可以重复造成（可选的，默认为不能）
+                            damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
+                            damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
+                            damageEndRange = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
+                            damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
+                        })
+                    elseif (rand == 2) then
+                        _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动弹跳冲击"))
+                        hskill.leapReflex({
+                            qty = 5, --（跳跃次数，默认1）
+                            range = 1000, --（选目标范围，默认0无效）
+                            arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
+                            sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
+                            targetUnit = evtData.targetUnit,
+                            speed = 10, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)
+                            acceleration = 1, --冲击加速度（可选的，每个周期都会增加0.02秒一次)
+                            filter = function(filterUnit)
+                                return his.enemy(filterUnit, u5) and his.alive(filterUnit)
+                            end,
+                            tokenArrow = "Abilities\\Spells\\Orc\\Shockwave\\ShockwaveMissile.mdl",
+                            tokenArrowScale = 1.00, --前冲的特效作为马甲冲击时的模型缩放
+                            tokenArrowOpacity = 1.00, --前冲的特效作为马甲冲击时的模型透明度[0-1]
+                            tokenArrowHeight = 0.00, --前冲的特效作为马甲冲击时的离地高度
+                            effectMovement = nil, --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
+                            effectEnd = nil, --到达最后位置时的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
+                            damageMovement = 3, --移动过程中的伤害（可选的，默认为0）
+                            damageMovementRange = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
+                            damageMovementRepeat = true, --移动过程中伤害是否可以重复造成（可选的，默认为不能）
+                            damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
+                            damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
+                            damageEndRange = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
+                            damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
+                        })
+                    elseif (rand == 3) then
+                        _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动普通冲击"))
+                        hskill.leap({
+                            arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
+                            sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
+                            x = cj.GetUnitX(evtData.targetUnit), --冲击的x坐标（可选的，对点冲击，与某目标无关）
+                            y = cj.GetUnitY(evtData.targetUnit), --冲击的y坐标（可选的，对点冲击，与某目标无关）
+                            speed = 10, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)
+                            acceleration = 1, --冲击加速度（可选的，每个周期都会增加0.02秒一次)
+                            filter = function(filterUnit)
+                                return his.enemy(filterUnit, u5) and his.alive(filterUnit)
+                            end,
+                            tokenArrow = "Abilities\\Spells\\Orc\\Shockwave\\ShockwaveMissile.mdl",
+                            tokenArrowScale = 1.00, --前冲的特效作为马甲冲击时的模型缩放
+                            tokenArrowOpacity = 1.00, --前冲的特效作为马甲冲击时的模型透明度[0-1]
+                            tokenArrowHeight = 0.00, --前冲的特效作为马甲冲击时的离地高度
+                            effectMovement = nil, --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
+                            effectEnd = nil, --到达最后位置时的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
+                            damageMovement = 3, --移动过程中的伤害（可选的，默认为0）
+                            damageMovementRange = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
+                            damageMovementRepeat = true, --移动过程中伤害是否可以重复造成（可选的，默认为不能）
+                            damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
+                            damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
+                            damageEndRange = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
+                            damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
+                        })
+                    end
                 end)
             elseif (val == "范围测试") then
                 local u1 = cru(1)
