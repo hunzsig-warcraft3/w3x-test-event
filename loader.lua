@@ -23,7 +23,7 @@ local cru = function(index)
         register = true,
         whichPlayer = hplayer.players[index],
         unitId = ids[index],
-        x = 300 * index, y = 0,
+        x = 98, y = 126,
         life = 60,
     })
 end
@@ -209,11 +209,16 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                         })
                     elseif (rand == 3) then
                         _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动普通冲击"))
+                        local polar = math.polarProjection(
+                            cj.GetUnitX(evtData.attacker),
+                            cj.GetUnitY(evtData.attacker),
+                            2000, hunit.getFacing(evtData.attacker)
+                        )
                         hskill.leap({
                             arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
                             sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
-                            x = cj.GetUnitX(evtData.targetUnit), --冲击的x坐标（可选的，对点冲击，与某目标无关）
-                            y = cj.GetUnitY(evtData.targetUnit), --冲击的y坐标（可选的，对点冲击，与某目标无关）
+                            x = polar.x, --冲击的x坐标（可选的，对点冲击，与某目标无关）
+                            y = polar.y, --冲击的y坐标（可选的，对点冲击，与某目标无关）
                             speed = 10, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)
                             acceleration = 1, --冲击加速度（可选的，每个周期都会增加0.02秒一次)
                             filter = function(filterUnit)
@@ -225,7 +230,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             tokenArrowHeight = 0.00, --前冲的特效作为马甲冲击时的离地高度
                             effectMovement = nil, --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                             effectEnd = nil, --到达最后位置时的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
-                            damageMovement = 3, --移动过程中的伤害（可选的，默认为0）
+                            damageMovement = 0, --移动过程中的伤害（可选的，默认为0）
                             damageMovementRange = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
                             damageMovementRepeat = true, --移动过程中伤害是否可以重复造成（可选的，默认为不能）
                             damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
