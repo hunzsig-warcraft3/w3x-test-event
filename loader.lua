@@ -173,18 +173,18 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             effectMovement = nil, --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                             effectEnd = nil, --到达最后位置时的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                             damageMovement = 3, --移动过程中的伤害（可选的，默认为0）
-                            damageMovementRange = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
+                            damageMovementRadius = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
                             damageMovementRepeat = true, --移动过程中伤害是否可以重复造成（可选的，默认为不能）
                             damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
                             damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
-                            damageEndRange = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
+                            damageEndRadius = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
                             damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 2) then
                         _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动弹跳冲击"))
                         hskill.leapReflex({
                             qty = 5, --（跳跃次数，默认1）
-                            range = 1000, --（选目标范围，默认0无效）
+                            radius = 1000, --（选目标范围，默认0无效）
                             arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
                             sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
                             targetUnit = evtData.targetUnit,
@@ -200,11 +200,11 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             effectMovement = nil, --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                             effectEnd = nil, --到达最后位置时的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                             damageMovement = 3, --移动过程中的伤害（可选的，默认为0）
-                            damageMovementRange = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
+                            damageMovementRadius = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
                             damageMovementRepeat = true, --移动过程中伤害是否可以重复造成（可选的，默认为不能）
                             damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
                             damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
-                            damageEndRange = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
+                            damageEndRadius = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
                             damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 3) then
@@ -231,11 +231,11 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             effectMovement = nil, --移动过程，每个间距的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                             effectEnd = nil, --到达最后位置时的特效（可选的，采用的0秒删除法，请使用explode类型的特效）
                             damageMovement = 0, --移动过程中的伤害（可选的，默认为0）
-                            damageMovementRange = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
+                            damageMovementRadius = 100, --移动过程中的伤害（可选的，默认为0，易知0范围是无效的所以有伤害也无法体现）
                             damageMovementRepeat = true, --移动过程中伤害是否可以重复造成（可选的，默认为不能）
                             damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
                             damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
-                            damageEndRange = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
+                            damageEndRadius = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
                             damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
                         })
                     end
