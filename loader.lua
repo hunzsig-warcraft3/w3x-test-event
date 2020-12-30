@@ -78,13 +78,13 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 hevent.onBeAttackReady(u4, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.yellow(hunit.getName(evtData.attacker) .. "发起攻击")
+                        hColor.yellow(hunit.getName(evtData.attackUnit) .. "发起攻击")
                     )
                 end)
                 hevent.onBeAttack(u4, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.purple("被" .. hunit.getName(evtData.attacker) .. "攻击了")
+                        hColor.purple("被" .. hunit.getName(evtData.attackUnit) .. "攻击了")
                     )
                 end)
             elseif (val == "特殊效果") then
@@ -96,33 +96,33 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 hattr.set(u1, 0, {
                     avoid = "=50",
                     attack_enchant = "+physical",
-                    attack_effect = {
+                    xtras = {
                         add = {
-                            { attr = "knocking", odds = 75, percent = 100, effect = nil }
+                            { on = CONST_EVENT.attack, action = "targetUnit.spec.knocking", odds = 75, percent = 100, val = 'damage', effect = nil },
                         }
                     }
                 })
                 hattr.set(u2, 0, {
                     hemophagia = "=25",
-                    attack_effect = {
+                    xtras = {
                         add = {
-                            { attr = "swim", odds = 50.0, val = 5.0, during = 2.0, effect = nil },
+                            { on = CONST_EVENT.attack, action = "targetUnit.spec.swim", odds = 50, val = 5, during = 2, effect = nil },
                         }
                     }
                 })
                 hattr.set(u3, 0, {
                     invincible = "=20",
-                    attack_effect = {
+                    xtras = {
                         add = {
-                            { attr = "crack_fly", odds = 50, val = 5, during = 1.5, effect = nil, distance = 300, high = 300 }
+                            { on = CONST_EVENT.attack, action = "targetUnit.spec.crack_fly", odds = 50, val = 5, during = 1.5, distance = 300, height = 300, effect = nil },
                         }
                     }
                 })
                 hattr.set(u4, 0, {
                     damage_rebound = "=10",
-                    attack_effect = {
+                    xtras = {
                         add = {
-                            { attr = "lightning_chain", odds = 75, val = 5, effect = nil, qty = 5, reduce = 5 }
+                            { on = CONST_EVENT.attack, action = "targetUnit.spec.lightning_chain", odds = 75, val = 5, qty = 5, rate = 5, effect = nil },
                         }
                     }
                 })
@@ -153,12 +153,12 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 hevent.onAttack(u5, function(evtData)
                     local rand = math.random(1, 3)
                     if (rand == 1) then
-                        _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动扇面冲击"))
-                        hskill.leapPow({
+                        _ttg(evtData.triggerUnit, hColor.orange(hunit.getName(evtData.triggerUnit) .. "发动扇面冲击"))
+                        hskill.leapPaw({
                             qty = 6, --数量
                             deg = 20, --角度
                             arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
-                            sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
+                            sourceUnit = evtData.triggerUnit, --伤害来源（必须有！不管有没有伤害）
                             x = cj.GetUnitX(evtData.targetUnit), --冲击的x坐标（可选的，对点冲击，与某目标无关）
                             y = cj.GetUnitY(evtData.targetUnit), --冲击的y坐标（可选的，对点冲击，与某目标无关）
                             speed = 10, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)
@@ -181,12 +181,12 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             damageSrc = CONST_DAMAGE_SRC.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 2) then
-                        _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动弹跳冲击"))
+                        _ttg(evtData.targetUnit, hColor.orange(hunit.getName(evtData.triggerUnit) .. "发动弹跳冲击"))
                         hskill.leapReflex({
                             qty = 5, --（跳跃次数，默认1）
                             radius = 1000, --（选目标范围，默认0无效）
                             arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
-                            sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
+                            sourceUnit = evtData.triggerUnit, --伤害来源（必须有！不管有没有伤害）
                             targetUnit = evtData.targetUnit,
                             speed = 10, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)
                             acceleration = 1, --冲击加速度（可选的，每个周期都会增加0.02秒一次)
@@ -208,15 +208,15 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             damageSrc = CONST_DAMAGE_SRC.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 3) then
-                        _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动普通冲击"))
+                        _ttg(evtData.triggerUnit, hColor.orange(hunit.getName(evtData.triggerUnit) .. "发动普通冲击"))
                         local polar = math.polarProjection(
-                            cj.GetUnitX(evtData.attacker),
-                            cj.GetUnitY(evtData.attacker),
-                            2000, hunit.getFacing(evtData.attacker)
+                            cj.GetUnitX(evtData.triggerUnit),
+                            cj.GetUnitY(evtData.triggerUnit),
+                            2000, hunit.getFacing(evtData.triggerUnit)
                         )
                         hskill.leap({
                             arrowUnit = nil, -- 前冲的单位（有就是自身冲击，没有就是马甲特效冲击）
-                            sourceUnit = evtData.attacker, --伤害来源（必须有！不管有没有伤害）
+                            sourceUnit = evtData.triggerUnit, --伤害来源（必须有！不管有没有伤害）
                             x = polar.x, --冲击的x坐标（可选的，对点冲击，与某目标无关）
                             y = polar.y, --冲击的y坐标（可选的，对点冲击，与某目标无关）
                             speed = 10, --冲击的速度（可选的，默认10，0.02秒的移动距离,大概1秒500px)

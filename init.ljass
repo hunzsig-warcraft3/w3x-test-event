@@ -1,0 +1,14 @@
+?>
+
+library myMap initializer Init
+
+    private function Init takes nothing returns nothing
+        // 执行F4内定义的lua文件（就是最下面那个import的main.lua）
+        call Cheat( "exec-lua:\"main\"" )
+    endfunction
+
+endlibrary
+<?
+-- 插入lua代码
+-- 上线改为import("main.lua") ("dist.lua", true)
+import("main.lua") ("hot.lua", true)
