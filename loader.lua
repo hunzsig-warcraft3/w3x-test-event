@@ -95,7 +95,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 local u5 = cru(5)
                 hattr.set(u1, 0, {
                     avoid = "=50",
-                    attack_damage_type = "+physical",
+                    attack_enchant = "+physical",
                     attack_effect = {
                         add = {
                             { attr = "knocking", odds = 75, percent = 100, effect = nil }
@@ -178,7 +178,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
                             damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
                             damageEndRadius = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
-                            damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
+                            damageSrc = CONST_DAMAGE_SRC.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 2) then
                         _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动弹跳冲击"))
@@ -205,7 +205,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
                             damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
                             damageEndRadius = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
-                            damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
+                            damageSrc = CONST_DAMAGE_SRC.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 3) then
                         _ttg(evtData.attacker, hColor.orange(hunit.getName(evtData.attacker) .. "发动普通冲击"))
@@ -236,7 +236,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             damageMovementDrag = true, --移动过程是否拖拽敌人（可选的，默认为不能）
                             damageEnd = 0, --移动结束时对目标的伤害（可选的，默认为0）
                             damageEndRadius = 0, --移动结束时对目标的伤害范围（可选的，默认为0，此处0范围是有效的，会只对targetUnit生效，除非unit不存在）
-                            damageKind = CONST_DAMAGE_KIND.skill, --伤害的种类（可选）
+                            damageSrc = CONST_DAMAGE_SRC.skill, --伤害的种类（可选）
                         })
                     end
                 end)
