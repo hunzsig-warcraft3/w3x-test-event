@@ -1,4 +1,5 @@
 -- 加载h-lua
+HLUA_DEBUG = true
 require "h-lua"
 
 -- 禁用迷雾
