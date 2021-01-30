@@ -61,31 +61,31 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 hevent.onAttackDetect(u1, function(evtData)
                     _ttg(
                         evtData.targetUnit,
-                        hColor.red(hunit.getName(evtData.triggerUnit) .. "注意你了")
+                        hcolor.red(hunit.getName(evtData.triggerUnit) .. "注意你了")
                     )
                 end)
                 hevent.onAttackGetTarget(u2, function(evtData)
                     _ttg(
                         evtData.targetUnit,
-                        hColor.green(hunit.getName(evtData.triggerUnit) .. "目标你了")
+                        hcolor.green(hunit.getName(evtData.triggerUnit) .. "目标你了")
                     )
                 end)
                 hevent.onAttack(u3, function(evtData)
                     _ttg(
                         evtData.targetUnit,
-                        hColor.sky(hunit.getName(evtData.triggerUnit) .. "攻击到你了")
+                        hcolor.sky(hunit.getName(evtData.triggerUnit) .. "攻击到你了")
                     )
                 end)
                 hevent.onBeAttackReady(u4, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.yellow(hunit.getName(evtData.attackUnit) .. "发起攻击")
+                        hcolor.yellow(hunit.getName(evtData.attackUnit) .. "发起攻击")
                     )
                 end)
                 hevent.onBeAttack(u4, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.purple("被" .. hunit.getName(evtData.attackUnit) .. "攻击了")
+                        hcolor.purple("被" .. hunit.getName(evtData.attackUnit) .. "攻击了")
                     )
                 end)
             elseif (val == "特殊效果") then
@@ -130,31 +130,31 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 hevent.onBeSwim(u1, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.green("你被" .. hunit.getName(evtData.sourceUnit) .. "眩晕了")
+                        hcolor.green("你被" .. hunit.getName(evtData.sourceUnit) .. "眩晕了")
                     )
                 end)
                 hevent.onBeCrackFly(u2, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.sky("你被" .. hunit.getName(evtData.sourceUnit) .. "击飞了")
+                        hcolor.sky("你被" .. hunit.getName(evtData.sourceUnit) .. "击飞了")
                     )
                 end)
                 hevent.onBeLightningChain(u3, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.yellow("你被" .. hunit.getName(evtData.sourceUnit) .. "闪电链")
+                        hcolor.yellow("你被" .. hunit.getName(evtData.sourceUnit) .. "闪电链")
                     )
                 end)
                 hevent.onBeRebound(u1, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.yellow("你被" .. hunit.getName(evtData.sourceUnit) .. "反弹伤害")
+                        hcolor.yellow("你被" .. hunit.getName(evtData.sourceUnit) .. "反弹伤害")
                     )
                 end)
                 hevent.onAttack(u5, function(evtData)
                     local rand = math.random(1, 3)
                     if (rand == 1) then
-                        _ttg(evtData.triggerUnit, hColor.orange(hunit.getName(evtData.triggerUnit) .. "发动扇面冲击"))
+                        _ttg(evtData.triggerUnit, hcolor.orange(hunit.getName(evtData.triggerUnit) .. "发动扇面冲击"))
                         hskill.leapPaw({
                             qty = 6, --数量
                             deg = 20, --角度
@@ -182,7 +182,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             damageSrc = CONST_DAMAGE_SRC.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 2) then
-                        _ttg(evtData.targetUnit, hColor.orange(hunit.getName(evtData.triggerUnit) .. "发动弹跳冲击"))
+                        _ttg(evtData.targetUnit, hcolor.orange(hunit.getName(evtData.triggerUnit) .. "发动弹跳冲击"))
                         hskill.leapReflex({
                             qty = 5, --（跳跃次数，默认1）
                             radius = 1000, --（选目标范围，默认0无效）
@@ -209,7 +209,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                             damageSrc = CONST_DAMAGE_SRC.skill, --伤害的种类（可选）
                         })
                     elseif (rand == 3) then
-                        _ttg(evtData.triggerUnit, hColor.orange(hunit.getName(evtData.triggerUnit) .. "发动普通冲击"))
+                        _ttg(evtData.triggerUnit, hcolor.orange(hunit.getName(evtData.triggerUnit) .. "发动普通冲击"))
                         local polar = math.polarProjection(
                             cj.GetUnitX(evtData.triggerUnit),
                             cj.GetUnitY(evtData.triggerUnit),
@@ -255,20 +255,20 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 hevent.onEnterUnitRange(u1, 150, function(evtData)
                     _ttg(
                         evtData.centerUnit,
-                        hColor.purple(hunit.getName(evtData.enterUnit) .. "接近你了")
+                        hcolor.purple(hunit.getName(evtData.enterUnit) .. "接近你了")
                     )
                 end)
                 hevent.onEnterUnitRange(u2, 300, function(evtData)
                     hattr.set(evtData.enterUnit, 1, { move = "+100" })
                     _ttg(
                         evtData.enterUnit,
-                        hColor.sky("加速！")
+                        hcolor.sky("加速！")
                     )
                 end)
                 hevent.onEnterRect(rect, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.yellow(hunit.getName(evtData.triggerUnit)
+                        hcolor.yellow(hunit.getName(evtData.triggerUnit)
                             .. "进入了"
                             .. hrect.getName(evtData.triggerRect))
                     )
@@ -276,7 +276,7 @@ hevent.onChat(hplayer.players[1], 'test', true, function(ed)
                 hevent.onLeaveRect(rect, function(evtData)
                     _ttg(
                         evtData.triggerUnit,
-                        hColor.yellowLight(hunit.getName(evtData.triggerUnit)
+                        hcolor.yellowLight(hunit.getName(evtData.triggerUnit)
                             .. "离开了"
                             .. hrect.getName(evtData.triggerRect)
                         )
