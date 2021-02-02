@@ -34,13 +34,8 @@ local _ttg = function(u, txt)
     httg.style(t, 'scale', 0, .3)
 end
 
--- 聊天测试，兼代测试入口
-hevent.onChat(hplayer.players[1], '##', false, function(evtData)
-    print_r(evtData)
-end)
-
 -- 聊天测试，对话框点击测试
-hevent.onChat(hplayer.players[1], 'test', true, function(ed)
+hevent.onChat(hplayer.players[1], "^test$", function(ed)
     print_r(ed)
     hdialog.create(hplayer.players[1],
         {
